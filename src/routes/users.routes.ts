@@ -1,16 +1,9 @@
 import { Router } from 'express'
+import { loginController } from '~/controllers/users.controllers'
+import { loginValidator } from '~/middlewares/users.middlewares'
 
 const usersRouter = Router()
 
-usersRouter.get('/userList', (req, res) => {
-  res.json({
-    data: [
-      {
-        id: 1,
-        name: 'test'
-      }
-    ]
-  })
-})
+usersRouter.post('/login', loginValidator, loginController)
 
 export default usersRouter
