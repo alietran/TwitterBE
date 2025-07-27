@@ -1,16 +1,48 @@
+import jwt from 'jsonwebtoken'
+import { TokenType } from '~/constants/enum'
+import { RegisterDTO } from '~/models/dto/users.dto'
 import User from '~/models/schemas/User.schema'
+import { hashPassword } from '~/utils/crypto'
+import { signToken } from '~/utils/jwt'
 import databaseService from './database.service'
 
 class UsersService {
-  async register(payload: { email: string; password: string }) {
-    const { email, password } = payload
+  private signAccessToken(user_id: string) {
+    return signToken({
+      payload: { user_id, token_type: TokenType.AccessToken },
+      options: {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRATION_IN as jwt.SignOptions['expiresIn']
+      }
+    })
+  }
+
+  private signRefreshToken(user_id: string) {
+    return signToken({
+      payload: { user_id, token_type: TokenType.RefreshToken },
+      options: {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRATION_IN as jwt.SignOptions['expiresIn']
+      }
+    })
+  }
+
+  async register(payload: RegisterDTO) {
     const result = await databaseService.users.insertOne(
       new User({
-        email,
-        password
+        ...payload,
+        password: hashPassword(payload.password)
       })
     )
-    return result
+
+    const user_id = result.insertedId.toString()
+
+    const [accessToken, refreshToken] = await Promise.all([
+      this.signAccessToken(user_id),
+      this.signRefreshToken(user_id)
+    ])
+    return {
+      accessToken,
+      refreshToken
+    }
   }
 
   async checkEmailExists(email: string) {
