@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { checkSchema } from 'express-validator'
+import { USER_MESSAGES } from '~/constants/message'
 import userService from '~/services/users.service'
 import { validate } from '~/utils/validation'
 
@@ -17,35 +18,43 @@ export const loginValidator = (req: Request, res: Response, next: NextFunction) 
 export const registerValidator = validate(
   checkSchema({
     name: {
-      notEmpty: true,
+      notEmpty: {
+        errorMessage: USER_MESSAGES.NAME_REQUIRED
+      },
       isString: true,
       isLength: {
         options: { min: 1, max: 50 },
-        errorMessage: 'Name is required'
+        errorMessage: USER_MESSAGES.NAME_LENGTH
       },
       trim: true
     },
     email: {
-      notEmpty: true,
-      isEmail: true,
+      notEmpty: {
+        errorMessage: USER_MESSAGES.EMAIL_REQUIRED
+      },
+      isEmail: {
+        errorMessage: USER_MESSAGES.EMAIL_INVALID
+      },
       normalizeEmail: true,
       trim: true,
       custom: {
         options: async (value) => {
           const isExistedEmail = await userService.checkEmailExists(value)
           if (isExistedEmail) {
-            throw new Error('Email already exists')
+            throw new Error(USER_MESSAGES.EMAIL_IS_EXISTED)
           }
           return true
         }
       }
     },
     password: {
-      notEmpty: true,
+      notEmpty: {
+        errorMessage: USER_MESSAGES.PASSWORD_REQUIRED
+      },
       isString: true,
       isLength: {
         options: { min: 6, max: 20 },
-        errorMessage: 'Password must be between 6 and 20 characters'
+        errorMessage: USER_MESSAGES.PASSWORD_LENGTH
       },
       trim: true,
       isStrongPassword: {
@@ -56,21 +65,24 @@ export const registerValidator = validate(
           minNumbers: 1,
           minSymbols: 1,
           returnScore: false
-        }
+        },
+        errorMessage: USER_MESSAGES.PASSWORD_MUST_BE_STRONG
       }
     },
     confirm_password: {
-      notEmpty: true,
+      notEmpty: {
+        errorMessage: USER_MESSAGES.CONFIRM_PASSWORD_REQUIRED
+      },
       isString: true,
       isLength: {
         options: { min: 6, max: 20 },
-        errorMessage: 'Password must be between 6 and 20 characters'
+        errorMessage: USER_MESSAGES.CONFIRM_PASSWORD_MUST_BE_STRONG
       },
       trim: true,
       custom: {
         options: (value, { req }) => {
           if (value !== req.body.password) {
-            throw new Error('Password confirmation does not match password')
+            throw new Error(USER_MESSAGES.CONFIRM_PASSWORD_MISMATCH)
           }
           return true
         }
@@ -78,7 +90,8 @@ export const registerValidator = validate(
     },
     date_of_birth: {
       isISO8601: {
-        options: { strict: true, strictSeparator: true }
+        options: { strict: true, strictSeparator: true },
+        errorMessage: USER_MESSAGES.DATE_OF_BIRTH_REQUIRED
       }
     }
   })
