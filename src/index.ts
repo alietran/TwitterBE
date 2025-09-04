@@ -11,7 +11,6 @@ app.use('/users', userRouter)
 databaseService.connect()
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log('error', err.message)
   res.status(400).json({
     error: err.message || 'An unexpected error occurred'
   })
