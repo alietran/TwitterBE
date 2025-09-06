@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken'
+import { ObjectId } from 'mongodb'
 import { TokenType } from '~/constants/enum'
 import { RegisterDTO } from '~/models/dto/users.dto'
+import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User from '~/models/schemas/User.schema'
 import { hashPassword } from '~/utils/crypto'
 import { signToken } from '~/utils/jwt'
@@ -40,6 +42,9 @@ class UsersService {
     const user_id = result.insertedId.toString()
 
     const [accessToken, refreshToken] = await this.signAccessAndRefreshToken(user_id)
+    await databaseService.refreshTokens.insertOne(
+      new RefreshToken({ token: refreshToken, user_id: new ObjectId(user_id) })
+    )
     return {
       accessToken,
       refreshToken
@@ -53,6 +58,9 @@ class UsersService {
 
   async login(user_id: string) {
     const [access_token, refresh_token] = await this.signAccessAndRefreshToken(user_id)
+    await databaseService.refreshTokens.insertOne(
+      new RefreshToken({ token: refresh_token, user_id: new ObjectId(user_id) })
+    )
     return { access_token, refresh_token }
   }
 }

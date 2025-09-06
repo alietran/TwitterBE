@@ -5,6 +5,7 @@ export const USER_MESSAGES = {
   EMAIL_REQUIRED: 'Email is required',
   EMAIL_INVALID: 'Email is invalid',
   EMAIL_IS_EXISTED: 'Email already exists',
+  EMAIL_OR_PASSWORD_INVALID: 'Email or password is invalid',
   PASSWORD_REQUIRED: 'Password is required',
   PASSWORD_LENGTH: 'Password must be between 6 and 20 characters',
   PASSWORD_MUST_BE_STRONG:
@@ -16,6 +17,5 @@ export const USER_MESSAGES = {
   LOGIN_SUCCESS: 'login success',
   LOGIN_FAILED: 'Login Failed',
   REGISTER_SUCCESS: 'Register success',
-  DATE_OF_BIRTH_REQUIRED: 'Date of birth is required',
-  USER_NOT_FOUND: 'User not found',
+  DATE_OF_BIRTH_REQUIRED: 'Date of birth is required'
 }
