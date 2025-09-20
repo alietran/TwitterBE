@@ -7,6 +7,7 @@ import User from '~/models/schemas/User.schema'
 import { hashPassword } from '~/utils/crypto'
 import { signToken } from '~/utils/jwt'
 import databaseService from './database.service'
+import { USER_MESSAGES } from '~/constants/message'
 
 class UsersService {
   private signAccessToken(user_id: string) {
@@ -62,6 +63,13 @@ class UsersService {
       new RefreshToken({ token: refresh_token, user_id: new ObjectId(user_id) })
     )
     return { access_token, refresh_token }
+  }
+
+  async logout(refresh_token: string) {
+    await databaseService.refreshTokens.deleteOne({ token: refresh_token })
+    return {
+      message: USER_MESSAGES.LOGOUT_SUCCESS
+    }
   }
 }
 

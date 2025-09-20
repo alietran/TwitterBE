@@ -1,4 +1,5 @@
 export const USER_MESSAGES = {
+  VALIDATION_ERROR: 'Validation error',
   EMAIL_EXISTS: 'Email already exists',
   NAME_REQUIRED: 'Name is required',
   NAME_LENGTH: 'Name must be between 1 and 50 characters',
@@ -17,5 +18,10 @@ export const USER_MESSAGES = {
   LOGIN_SUCCESS: 'login success',
   LOGIN_FAILED: 'Login Failed',
   REGISTER_SUCCESS: 'Register success',
-  DATE_OF_BIRTH_REQUIRED: 'Date of birth is required'
+  DATE_OF_BIRTH_REQUIRED: 'Date of birth is required',
+  ACCESS_TOKEN_REQUIRED: 'Access token is required',
+  REFRESH_TOKEN_REQUIRED: 'Refresh token is required',
+  REFRESH_TOKEN_IS_INVALID: 'Refresh token is invalid',
+  USED_REFRESH_TOKEN_OR_NOT_EXIST: 'Used refresh token or not exist',
+  LOGOUT_SUCCESS: 'Logout success'
 }
