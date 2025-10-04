@@ -2,14 +2,14 @@ import jwt from 'jsonwebtoken'
 
 export const signToken = ({
   payload,
-  privateKey = process.env.JWT_SECRET_KEY as string,
+  privateKey,
   options = {
     algorithm: 'HS256',
     expiresIn: '1h'
   }
 }: {
   payload: string | Buffer | object
-  privateKey?: string
+  privateKey: string
   options?: jwt.SignOptions
 }) => {
   return new Promise<string>((resolve, reject) => {
@@ -22,8 +22,9 @@ export const signToken = ({
   })
 }
 
-export const verifyToken = ({ token, key = process.env.JWT_SECRET_KEY as string }: { token: string; key?: string }) => {
+export const verifyToken = ({ token, key }: { token: string; key: string }) => {
   return new Promise<jwt.JwtPayload>((resolve, reject) => {
+    console.log('key', key)
     jwt.verify(token, key, (err, decoded) => {
       if (err) {
         return reject(err)

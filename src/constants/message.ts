@@ -1,4 +1,6 @@
 export const USER_MESSAGES = {
+  REGISTER_SUCCESS: 'Register success',
+  LOGIN_SUCCESS: 'Login success',
   VALIDATION_ERROR: 'Validation error',
   EMAIL_EXISTS: 'Email already exists',
   NAME_REQUIRED: 'Name is required',
@@ -15,13 +17,15 @@ export const USER_MESSAGES = {
   CONFIRM_PASSWORD_REQUIRED: 'Confirm password is required',
   CONFIRM_PASSWORD_MUST_BE_STRONG:
     'Confirm password must be strong with at least one uppercase letter, one lowercase letter, one number, and one symbol',
-  LOGIN_SUCCESS: 'login success',
   LOGIN_FAILED: 'Login Failed',
-  REGISTER_SUCCESS: 'Register success',
   DATE_OF_BIRTH_REQUIRED: 'Date of birth is required',
   ACCESS_TOKEN_REQUIRED: 'Access token is required',
   REFRESH_TOKEN_REQUIRED: 'Refresh token is required',
   REFRESH_TOKEN_IS_INVALID: 'Refresh token is invalid',
   USED_REFRESH_TOKEN_OR_NOT_EXIST: 'Used refresh token or not exist',
-  LOGOUT_SUCCESS: 'Logout success'
+  LOGOUT_SUCCESS: 'Logout success',
+  EMAIL_VERIFY_TOKEN_REQUIRED: 'Email verify token is required',
+  EMAIL_ALREADY_VERIFIED: 'Email already verified',
+  EMAIL_VERIFY_SUCCESS: 'Email verify success',
+  USER_NOT_FOUND: 'User not found'
 }
