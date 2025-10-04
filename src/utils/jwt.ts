@@ -24,7 +24,6 @@ export const signToken = ({
 
 export const verifyToken = ({ token, key }: { token: string; key: string }) => {
   return new Promise<jwt.JwtPayload>((resolve, reject) => {
-    console.log('key', key)
     jwt.verify(token, key, (err, decoded) => {
       if (err) {
         return reject(err)

@@ -4,7 +4,7 @@ import { TokenType } from '~/constants/enum'
 import { USER_MESSAGES } from '~/constants/message'
 import { RegisterDTO } from '~/models/dto/users.dto'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
-import User from '~/models/schemas/User.schema'
+import User, { UserVerifyStatus } from '~/models/schemas/User.schema'
 import { hashPassword } from '~/utils/crypto'
 import { signToken } from '~/utils/jwt'
 import databaseService from './database.service'
@@ -93,13 +93,35 @@ class UsersService {
       this.signAccessAndRefreshToken(user_id),
       databaseService.users.updateOne(
         { _id: new ObjectId(user_id) },
-        { $set: { email_verify_token: '', updated_at: new Date() } }
+        {
+          $set: {
+            email_verify_token: '',
+            verify: UserVerifyStatus.Verified
+            // updated_at: new Date()
+          },
+          $currentDate: {
+            updated_at: true
+          }
+        }
       )
     ])
     const [access_token, refresh_token] = token
     return {
       access_token,
       refresh_token
+    }
+  }
+
+  async resendVerifyEmail(user_id: string) {
+    const email_verify_token = await this.signEmailVerifyToken(user_id)
+    console.log('Resend email verify', email_verify_token)
+
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      { $set: { email_verify_token }, $currentDate: { updated_at: true } }
+    )
+    return {
+      message: USER_MESSAGES.RESEND_EMAIL_VERIFY_SUCCESS
     }
   }
 }

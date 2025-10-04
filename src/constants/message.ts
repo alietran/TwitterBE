@@ -27,5 +27,6 @@ export const USER_MESSAGES = {
   EMAIL_VERIFY_TOKEN_REQUIRED: 'Email verify token is required',
   EMAIL_ALREADY_VERIFIED: 'Email already verified',
   EMAIL_VERIFY_SUCCESS: 'Email verify success',
-  USER_NOT_FOUND: 'User not found'
+  USER_NOT_FOUND: 'User not found',
+  RESEND_EMAIL_VERIFY_SUCCESS: 'Resend email verify success'
 }
