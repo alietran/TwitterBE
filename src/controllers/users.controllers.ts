@@ -3,7 +3,7 @@ import { ParamsDictionary } from 'express-serve-static-core'
 import { ObjectId } from 'mongodb'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/message'
-import { loginDTO, RegisterDTO, TokenPayload, VerifyEmailDTO } from '~/models/dto/users.dto'
+import { ForgotPasswordDTO, loginDTO, RegisterDTO, TokenPayload, VerifyEmailDTO } from '~/models/dto/users.dto'
 import User, { UserVerifyStatus } from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.service'
 import userService from '~/services/users.service'
@@ -53,7 +53,6 @@ export const emailVerifyController = async (req: Request<ParamsDictionary, any, 
 
 export const resendEmailVerifyController = async (req: Request, res: Response) => {
   const { user_id } = req.decoded_authorization as TokenPayload
-  console.log('user_id', user_id)
   const user = await databaseService.users.findOne({ _id: new ObjectId(user_id) })
   //IF user not found
   if (!user) {
@@ -65,4 +64,17 @@ export const resendEmailVerifyController = async (req: Request, res: Response) =
   }
   const result = await userService.resendVerifyEmail(user_id)
   return res.json(result)
+}
+
+export const forgotPasswordController = async (
+  req: Request<ParamsDictionary, any, ForgotPasswordDTO>,
+  res: Response
+) => {
+  const { _id } = req.user as User
+  const result = await userService.forgotPassword((_id as ObjectId).toString())
+  return res.json({ result })
+}
+
+export const verifyForgotPasswordController = async (req: Request, res: Response) => {
+  return res.json({ message: USER_MESSAGES.VERIFY_FORGOT_PASSWORD_SUCCESS })
 }

@@ -21,3 +21,7 @@ export interface TokenPayload extends JwtPayload {
   user_id: string
   token_type: string
 }
+
+export interface ForgotPasswordDTO {
+  email: string
+}
