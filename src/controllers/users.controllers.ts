@@ -3,7 +3,14 @@ import { ParamsDictionary } from 'express-serve-static-core'
 import { ObjectId } from 'mongodb'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/message'
-import { ForgotPasswordDTO, loginDTO, RegisterDTO, TokenPayload, VerifyEmailDTO } from '~/models/dto/users.dto'
+import {
+  ForgotPasswordDTO,
+  loginDTO,
+  RegisterDTO,
+  ResetPasswordDTO,
+  TokenPayload,
+  VerifyEmailDTO
+} from '~/models/dto/users.dto'
 import User, { UserVerifyStatus } from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.service'
 import userService from '~/services/users.service'
@@ -77,4 +84,10 @@ export const forgotPasswordController = async (
 
 export const verifyForgotPasswordController = async (req: Request, res: Response) => {
   return res.json({ message: USER_MESSAGES.VERIFY_FORGOT_PASSWORD_SUCCESS })
+}
+
+export const resetPasswordController = async (req: Request<ParamsDictionary, any, ResetPasswordDTO>, res: Response) => {
+  const { user_id } = req.decode_forgot_password_token as TokenPayload
+  const result = await userService.resetPassword(user_id, req.body.password)
+  return res.json({ result })
 }
