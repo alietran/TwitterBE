@@ -9,6 +9,7 @@ import {
   RegisterDTO,
   ResetPasswordDTO,
   TokenPayload,
+  UpdateMeDTO,
   VerifyEmailDTO
 } from '~/models/dto/users.dto'
 import User, { UserVerifyStatus } from '~/models/schemas/User.schema'
@@ -18,7 +19,7 @@ import userService from '~/services/users.service'
 export const loginController = async (req: Request<ParamsDictionary, any, loginDTO>, res: Response) => {
   const user = req.user as User
   const user_id = user._id as ObjectId
-  const result = await userService.login(user_id.toString())
+  const result = await userService.login({ user_id: user_id.toString(), verify: user.verify })
   res.json({
     message: USER_MESSAGES.LOGIN_SUCCESS,
     result
@@ -77,8 +78,8 @@ export const forgotPasswordController = async (
   req: Request<ParamsDictionary, any, ForgotPasswordDTO>,
   res: Response
 ) => {
-  const { _id } = req.user as User
-  const result = await userService.forgotPassword((_id as ObjectId).toString())
+  const { _id, verify } = req.user as User
+  const result = await userService.forgotPassword({ user_id: (_id as ObjectId).toString(), verify })
   return res.json({ result })
 }
 
@@ -98,5 +99,14 @@ export const getMeController = async (req: Request, res: Response) => {
   return res.json({
     message: USER_MESSAGES.GET_ME_SUCCESS,
     user
+  })
+}
+
+export const updateMeController = async (req: Request<ParamsDictionary, any, UpdateMeDTO>, res: Response) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+  const user = await userService.updateMe(user_id, req.body)
+  return res.json({
+    message: USER_MESSAGES.UPDATE_ME_SUCCESS,
+    result: user
   })
 }

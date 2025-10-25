@@ -18,7 +18,7 @@ export const USER_MESSAGES = {
   CONFIRM_PASSWORD_MUST_BE_STRONG:
     'Confirm password must be strong with at least one uppercase letter, one lowercase letter, one number, and one symbol',
   LOGIN_FAILED: 'Login Failed',
-  DATE_OF_BIRTH_REQUIRED: 'Date of birth is required',
+  DATE_OF_BIRTH_REQUIRED: 'Date of birth must be ÍO8601 format',
   ACCESS_TOKEN_REQUIRED: 'Access token is required',
   REFRESH_TOKEN_REQUIRED: 'Refresh token is required',
   REFRESH_TOKEN_IS_INVALID: 'Refresh token is invalid',
@@ -35,5 +35,18 @@ export const USER_MESSAGES = {
   VERIFY_FORGOT_PASSWORD_SUCCESS: 'Verify forgot password success',
   INVALID_FORGOT_PASSWORD_TOKEN: 'Forgot password token is invalid',
   RESET_PASSWORD_SUCCESS: 'Reset password success',
-  GET_ME_SUCCESS: 'Get my profile success'
+  GET_ME_SUCCESS: 'Get my profile success',
+  BIO_MUST_BE_STRING: 'Bio must be a string',
+  BIO_MAX_LENGTH: 'Bio must be at most 200 characters',
+  LOCATION_MUST_BE_STRING: 'Location must be a string',
+  LOCATION_MAX_LENGTH: 'Location must be at most 200 characters',
+  WEBSITE_MUST_BE_STRING: 'Website must be a string',
+  WEBSITE_MAX_LENGTH: 'Website must be at most 200 characters',
+  USERNAME_REQUIRED: 'Username is required',
+  USERNAME_MUST_BE_STRING: 'Username must be a string',
+  USERNAME_MAX_LENGTH: 'Username must be at most 50 characters',
+  UPDATE_PROFILE_SUCCESS: 'Update profile success',
+  IMAGE_URL_MUST_BE_STRING: 'Image URL must be a string',
+  IMAGE_URL_MAX_LENGTH: 'Image URL must be at most 400 characters',
+  UPDATE_ME_SUCCESS: 'Update me success'
 }

@@ -31,3 +31,14 @@ export interface ResetPasswordDTO {
   confirm_password: string
   forgot_password_token: string
 }
+
+export interface UpdateMeDTO {
+  name?: string
+  date_of_birth?: string
+  bio?: string
+  location?: string
+  website?: string
+  username?: string
+  avatar?: string
+  cover_photo?: string
+}

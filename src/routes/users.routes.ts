@@ -8,8 +8,10 @@ import {
   registerController,
   resendEmailVerifyController,
   resetPasswordController,
+  updateMeController,
   verifyForgotPasswordController
 } from '~/controllers/users.controllers'
+import { filterMiddleware } from '~/middlewares/common.middleware'
 import {
   accessTokenValidator,
   emailVerifyTokenValidator,
@@ -18,8 +20,11 @@ import {
   refreshTokenValidator,
   registerValidator,
   resetPasswordValidator,
+  updateMeValidator,
+  verifiedUserValidator,
   verifyForgotPasswordTokenValidator
 } from '~/middlewares/users.middlewares'
+import { UpdateMeDTO } from '~/models/dto/users.dto'
 import { wrapRequestHandler } from '~/utils/handlers'
 
 const usersRouter = Router()
@@ -39,4 +44,22 @@ usersRouter.post(
 usersRouter.post('/reset-password', resetPasswordValidator, wrapRequestHandler(resetPasswordController))
 
 usersRouter.get('/get-me', accessTokenValidator, wrapRequestHandler(getMeController))
+usersRouter.patch(
+  '/me',
+  accessTokenValidator,
+  verifiedUserValidator,
+  updateMeValidator,
+  filterMiddleware<UpdateMeDTO>([
+    'name',
+    'date_of_birth',
+    'bio',
+    'location',
+    'website',
+    'username',
+    'avatar',
+    'cover_photo'
+  ]),
+  wrapRequestHandler(updateMeController)
+)
+
 export default usersRouter
