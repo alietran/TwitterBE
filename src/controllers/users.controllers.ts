@@ -98,7 +98,16 @@ export const getMeController = async (req: Request, res: Response) => {
   const user = await userService.getMe(user_id)
   return res.json({
     message: USER_MESSAGES.GET_ME_SUCCESS,
-    user
+    result: user
+  })
+}
+
+export const getProfileController = async (req: Request, res: Response) => {
+  const { username } = req.params
+  const user = await userService.getProfile(username)
+  return res.json({
+    message: USER_MESSAGES.GET_PROFILE_SUCCESS,
+    result: user
   })
 }
 

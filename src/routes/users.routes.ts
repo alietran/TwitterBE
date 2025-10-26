@@ -3,6 +3,7 @@ import {
   emailVerifyController,
   forgotPasswordController,
   getMeController,
+  getProfileController,
   loginController,
   logoutController,
   registerController,
@@ -61,5 +62,7 @@ usersRouter.patch(
   ]),
   wrapRequestHandler(updateMeController)
 )
+
+usersRouter.get('/:username', wrapRequestHandler(getProfileController))
 
 export default usersRouter

@@ -48,5 +48,6 @@ export const USER_MESSAGES = {
   UPDATE_PROFILE_SUCCESS: 'Update profile success',
   IMAGE_URL_MUST_BE_STRING: 'Image URL must be a string',
   IMAGE_URL_MAX_LENGTH: 'Image URL must be at most 400 characters',
-  UPDATE_ME_SUCCESS: 'Update me success'
+  UPDATE_ME_SUCCESS: 'Update me success',
+  GET_PROFILE_SUCCESS: 'Get user profile success'
 }
