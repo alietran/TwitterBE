@@ -42,3 +42,7 @@ export interface UpdateMeDTO {
   avatar?: string
   cover_photo?: string
 }
+
+export interface FollowUserDTO {
+  follow_user_id: string
+}

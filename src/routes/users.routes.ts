@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   emailVerifyController,
+  followUserController,
   forgotPasswordController,
   getMeController,
   getProfileController,
@@ -62,7 +63,8 @@ usersRouter.patch(
   ]),
   wrapRequestHandler(updateMeController)
 )
-
 usersRouter.get('/:username', wrapRequestHandler(getProfileController))
+
+usersRouter.post('/follow', accessTokenValidator, verifiedUserValidator, followValidator, wrapRequestHandler(followUserController))
 
 export default usersRouter

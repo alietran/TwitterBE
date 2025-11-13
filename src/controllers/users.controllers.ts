@@ -4,6 +4,7 @@ import { ObjectId } from 'mongodb'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/message'
 import {
+  FollowUserDTO,
   ForgotPasswordDTO,
   loginDTO,
   RegisterDTO,
@@ -118,4 +119,11 @@ export const updateMeController = async (req: Request<ParamsDictionary, any, Upd
     message: USER_MESSAGES.UPDATE_ME_SUCCESS,
     result: user
   })
+}
+
+export const followUserController = async (req: Request<ParamsDictionary, any, FollowUserDTO>, res: Response) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+  const { follow_user_id } = req.body
+  const result = await userService.followUser(user_id, follow_user_id)
+  return res.json(result)
 }

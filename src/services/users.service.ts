@@ -5,6 +5,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { USER_MESSAGES } from '~/constants/message'
 import { RegisterDTO, UpdateMeDTO } from '~/models/dto/users.dto'
 import { ErrorWithStatus } from '~/models/Errors'
+import Follower from '~/models/schemas/Followers.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import User, { UserVerifyStatus } from '~/models/schemas/User.schema'
 import { hashPassword } from '~/utils/crypto'
@@ -223,6 +224,18 @@ class UsersService {
       }
     )
     return user
+  }
+
+  async followUser(user_id: string, follow_user_id: string) {
+    databaseService.followes.insertOne(
+      new Follower({
+        user_id: new ObjectId(user_id),
+        follower_id: new ObjectId(follow_user_id)
+      })
+    )
+    return {
+      message: USER_MESSAGES.FOLLOW_USER_SUCCESS
+    }
   }
 }
 
